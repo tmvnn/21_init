@@ -1,0 +1,2 @@
+!#/bin/bash
+getent passwd {1000..29999} | cut -d : -f 1

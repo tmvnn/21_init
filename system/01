@@ -1,1 +1,2 @@
-ifconfig -l
+!#/bin/bash
+cat /proc/version

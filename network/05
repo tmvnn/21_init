@@ -1,0 +1,1 @@
+host -t A slash16.org | awk '{print $4}'
