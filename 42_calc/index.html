@@ -1,0 +1,72 @@
+<!-- To copy this site, just download the index.html and infos.json -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>42 Level Calculator</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hello!</h1>
+      <hr>
+      <p>If you validate the project</p>
+      <select id="projects" class="form-control form-control-lg">
+      </select>
+      <hr>
+      <p>And your current level is</p>
+      <input id="lvl" type="number" class="form-control form-control-lg" value="7.42" step="0.01">
+      <hr>
+      <p>And XP of your project is</p>
+      <input id="notation" type="number" class="form-control form-control-lg" value="100">
+      <hr>
+      <p>You should get lvl about  <span id="newlvl"></span>.</p>
+      <p>An error is about <span id="percent"></span> %.</p>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <script type="text/javascript">
+    datas = null;
+    function compute()
+    {
+      if (!datas)
+        return ;
+      var projet = $("#projects").val();
+      console.log(projet);
+      datas.forEach(function(element) {
+        if (element['project'] == projet)
+        {
+          var c1 = element['coef'][0][0];
+          var c2 = element['coef'][1][0] * $('#lvl').val();
+          var c3 = element['coef'][2][0] * $('#notation').val();
+          $('#newlvl').text((c1 + c2 + c3).toFixed(2));
+         $('#percent').text(Math.abs(100 - element['moyErr']).toFixed(3));
+        }
+      });
+    }
+    $( document ).ready(function() {
+      $.getJSON( "infos.json", function( data ) {
+      var items = [];
+      data['projects'].forEach(function(element) {
+        $("#projects").append(new Option(element, element));
+      });
+      datas = data['coefs'];
+      compute();
+
+    })});
+    $("input").keyup(compute);
+    $("input").change(compute);
+    $("select").change(compute);
+    </script>
+  </body>
+</html>
